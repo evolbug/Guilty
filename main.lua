@@ -1,0 +1,2 @@
+require 'moonscript'
+require 'mmain'
