@@ -7,12 +7,18 @@ class Component
         @__component__ = true
         @children = {}
         @parent = nil
+    
+    @__inherited: (child) =>
+        print child.__name, 'inherited', @@__name
 
     attach: (...) =>
         args = not (...).__component__ and ... or {...}
-        @children[#@children+1] = comp for comp in *args
-        comp.parent = self for comp in *args
+        for comp in *args do @children[#@children+1] = comp
+        for comp in *args do comp.parent = self
         return unpack args
+
+    detach: (child) =>
+        table.remove @children, i for i,c in ipairs @children when c==child
 
     event: (events) => for child in *@children do child\event events
 

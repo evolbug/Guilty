@@ -20,6 +20,13 @@ do
       end
       return unpack(args)
     end,
+    detach = function(self, child)
+      for i, c in ipairs(self.children) do
+        if c == child then
+          table.remove(self.children, i)
+        end
+      end
+    end,
     event = function(self, events)
       local _list_0 = self.children
       for _index_0 = 1, #_list_0 do
@@ -46,6 +53,10 @@ do
     end
   })
   _base_0.__class = _class_0
+  local self = _class_0
+  self.__inherited = function(self, child)
+    return print(child.__name, 'inherited', self.__class.__name)
+  end
   Component = _class_0
 end
 local Receiver

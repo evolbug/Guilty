@@ -20,7 +20,7 @@ class Widget extends Component
         @canvas = lg.newCanvas w, h
 
         @attach Receiver 'render', @onrender -- render event receiver
-    
+
     onrender: =>
         lg.draw @canvas, @position!
 
@@ -68,7 +68,7 @@ class Clickable extends Widget
             tetriary:   -> print 'button->tetriary'  -- middle button
             any:        ->                           -- any button
             _extra:     ->                           -- extra event
-    
+
     onrender: =>
 
     within: (x, y) => -- check if click within boundary
