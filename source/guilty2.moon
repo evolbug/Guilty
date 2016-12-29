@@ -9,7 +9,7 @@ import Component, Receiver from require 'comfy'
 
 lg = love.graphics
 
-RGBA = (r=1, g=1, b=1, a=1) -> -- convenience color function
+RGBA = (r=1, g=1, b=1, a=255) -> -- convenience color function
     if #[i for i in *{r, g, b, a} when i<=1] == 4 -- opengl-style colours (<1)
         return {r*255, g*255, b*255, a*255}
     return {r, g, b, a}
@@ -33,8 +33,8 @@ class Widget extends Component
             
     position: => -- return widget position relative to parent
         pw, ph = unpack @parent and {@parent\size!} or {lg.getDimensions!}
-        cx = @x=='center' and pw/2 - @w/2 or @x
-        cy = @y=='center' and ph/2 - @h/2 or @y
+        cx = @x=='center' and math.floor pw/2-@w/2 or @x
+        cy = @y=='center' and math.floor ph/2-@h/2 or @y
         cx, cy
 
     aposition: => -- get absolute widget position and size
@@ -101,31 +101,37 @@ class Label extends Widget
         @text = lg.newText lg.getFont!, text
         super {x, y, @text\getWidth!, @text\getHeight!}
         
-    onrender: =>
+    onrender: (color=@color) =>
+        @draw lg.draw, {@text, 0,0}, color
         super!
-        @draw lg.draw, {@text, 0,0}, @color
 
 class Button extends Widget
-    new: (boundary, text, color = RGBA!) =>
+    new: (boundary, text, color = RGBA .5,.5,.5,1) =>
         super boundary
         @color = color
-        @fill = 'line'
+        @fill = 'fill'
+        
+        @label = Label 'center', 'center', text -- button label
 
         @clickable = @attach Clickable! -- make widget clickable
         @onclick = @clickable.onclick -- pull in onclick event table
 
-        @label = @attach Label 'center', 'center', text
-
         @onclick._extra = ->
-            @fill = 'fill' -- set fill style on click
-            @label.color = RGBA 0,0,0,1
-        @attach Receiver 'mouserelease', ->
-            @fill = 'line' -- reset fill
+--            @fill = 'fill' -- set fill style on click
+            @color = RGBA 0,0,0,1
             @label.color = RGBA 1,1,1,1
+--            @event 'render'
+
+        @attach Receiver 'mouserelease', ->
+--            @fill = 'line' -- reset fill
+            @color = RGBA .5,.5,.5,1
+            @label.color = RGBA 0,0,0,1
+--            @event 'render'
 
     onrender: (fill=@fill) =>
-        super!
         @draw lg.rectangle, {fill, 0,0, @size!}, @color -- draw widget border
+        @label\event 'render'
+        super!
 
 
 { :Widget, :Renderer, :Button }

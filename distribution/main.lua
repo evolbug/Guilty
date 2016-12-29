@@ -1,17 +1,11 @@
 local gui = require("guilty2")
 local lg = love.graphics
-local frame = gui.Widget({
-  'center',
-  'center',
-  100,
-  100
-})
-local butt = frame:attach(gui.Button({
+local butt = gui.Button({
   'center',
   'center',
   80,
   80
-}, 'butn'))
+}, 'butn')
 love.load = function()
   return love.window.setMode(800, 600, {
     resizable = true,
@@ -19,11 +13,11 @@ love.load = function()
   })
 end
 love.draw = function()
-  lg.clear(0, 0, 0, 0)
-  return frame:event('render')
+  lg.clear(255, 255, 255, 255)
+  return butt:event('render')
 end
 love.mousepressed = function(x, y, button, istouch)
-  return frame:event({
+  return butt:event({
     mousepress = {
       x,
       y,
@@ -33,7 +27,7 @@ love.mousepressed = function(x, y, button, istouch)
   })
 end
 love.mousereleased = function(x, y, button, istouch)
-  return frame:event({
+  return butt:event({
     mouserelease = {
       x,
       y,

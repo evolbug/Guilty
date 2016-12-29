@@ -21,7 +21,7 @@ RGBA = function(r, g, b, a)
     b = 1
   end
   if a == nil then
-    a = 1
+    a = 255
   end
   if #(function()
     local _accum_0 = { }
@@ -77,8 +77,8 @@ do
       } or {
         lg.getDimensions()
       })
-      local cx = self.x == 'center' and pw / 2 - self.w / 2 or self.x
-      local cy = self.y == 'center' and ph / 2 - self.h / 2 or self.y
+      local cx = self.x == 'center' and math.floor(pw / 2 - self.w / 2 or self.x)
+      local cy = self.y == 'center' and math.floor(ph / 2 - self.h / 2 or self.y)
       return cx, cy
     end,
     aposition = function(self)
@@ -235,13 +235,16 @@ do
   local _class_0
   local _parent_0 = Widget
   local _base_0 = {
-    onrender = function(self)
-      _class_0.__parent.__base.onrender(self)
-      return self:draw(lg.draw, {
+    onrender = function(self, color)
+      if color == nil then
+        color = self.color
+      end
+      self:draw(lg.draw, {
         self.text,
         0,
         0
-      }, self.color)
+      }, color)
+      return _class_0.__parent.__base.onrender(self)
     end
   }
   _base_0.__index = _base_0
@@ -298,13 +301,14 @@ do
       if fill == nil then
         fill = self.fill
       end
-      _class_0.__parent.__base.onrender(self)
-      return self:draw(lg.rectangle, {
+      self.label:event('render')
+      self:draw(lg.rectangle, {
         fill,
         0,
         0,
         self:size()
       }, self.color)
+      return _class_0.__parent.__base.onrender(self)
     end
   }
   _base_0.__index = _base_0
@@ -312,21 +316,21 @@ do
   _class_0 = setmetatable({
     __init = function(self, boundary, text, color)
       if color == nil then
-        color = RGBA()
+        color = RGBA(.5, .5, .5, 1)
       end
       _class_0.__parent.__init(self, boundary)
       self.color = color
-      self.fill = 'line'
+      self.fill = 'fill'
+      self.label = Label('center', 'center', text)
       self.clickable = self:attach(Clickable())
       self.onclick = self.clickable.onclick
-      self.label = self:attach(Label('center', 'center', text))
       self.onclick._extra = function()
-        self.fill = 'fill'
-        self.label.color = RGBA(0, 0, 0, 1)
+        self.color = RGBA(0, 0, 0, 1)
+        self.label.color = RGBA(1, 1, 1, 1)
       end
       return self:attach(Receiver('mouserelease', function()
-        self.fill = 'line'
-        self.label.color = RGBA(1, 1, 1, 1)
+        self.color = RGBA(.5, .5, .5, 1)
+        self.label.color = RGBA(0, 0, 0, 1)
       end))
     end,
     __base = _base_0,

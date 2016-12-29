@@ -2,6 +2,45 @@ local _ = [[  evolbug 2016-2017, MIT license
 
 Comfy, a lightweight component framework
 ]]
+local Receiver
+do
+  local _class_0
+  local _base_0 = {
+    event = function(self, ...)
+      if ... == self.ev then
+        return self.fn(self.parent)
+      else
+        if type(...) == 'table' then
+          for k, v in pairs(...) do
+            if k == self.ev then
+              self.fn(self.parent, unpack(v))
+            end
+          end
+        end
+      end
+    end
+  }
+  _base_0.__index = _base_0
+  _class_0 = setmetatable({
+    __init = function(self, event, callback)
+      self.__component__ = true
+      self.parent = nil
+      self.ev = event
+      self.fn = callback
+    end,
+    __base = _base_0,
+    __name = "Receiver"
+  }, {
+    __index = _base_0,
+    __call = function(cls, ...)
+      local _self_0 = setmetatable({}, _base_0)
+      cls.__init(_self_0, ...)
+      return _self_0
+    end
+  })
+  _base_0.__class = _class_0
+  Receiver = _class_0
+end
 local Component
 do
   local _class_0
@@ -12,10 +51,7 @@ do
       }
       for _index_0 = 1, #args do
         local comp = args[_index_0]
-        self.children[#self.children + 1] = comp
-      end
-      for _index_0 = 1, #args do
-        local comp = args[_index_0]
+        table.insert(self.children, comp)
         comp.parent = self
       end
       return unpack(args)
@@ -32,6 +68,22 @@ do
       for _index_0 = 1, #_list_0 do
         local child = _list_0[_index_0]
         child:event(events)
+      end
+    end,
+    bubble = function(self, ...)
+      local _list_0 = self.children
+      for _index_0 = 1, #_list_0 do
+        local child = _list_0[_index_0]
+        if child.__class ~= Receiver then
+          child:bubble(...)
+        end
+      end
+      local _list_1 = self.children
+      for _index_0 = 1, #_list_1 do
+        local child = _list_1[_index_0]
+        if child.__class == Receiver then
+          child:event(...)
+        end
       end
     end
   }
@@ -53,65 +105,7 @@ do
     end
   })
   _base_0.__class = _class_0
-  local self = _class_0
-  self.__inherited = function(self, child)
-    return print(child.__name, 'inherited', self.__class.__name)
-  end
   Component = _class_0
-end
-local Receiver
-do
-  local _class_0
-  local _parent_0 = Component
-  local _base_0 = {
-    event = function(self, ...)
-      if ... == self.ev then
-        return self.fn(self.parent)
-      else
-        if type(...) == 'table' then
-          for k, v in pairs(...) do
-            if k == self.ev then
-              self.fn(self.parent, unpack(v))
-            end
-          end
-        end
-      end
-    end
-  }
-  _base_0.__index = _base_0
-  setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
-    __init = function(self, event, callback)
-      _class_0.__parent.__init(self)
-      self.ev = event
-      self.fn = callback
-    end,
-    __base = _base_0,
-    __name = "Receiver",
-    __parent = _parent_0
-  }, {
-    __index = function(cls, name)
-      local val = rawget(_base_0, name)
-      if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
-      else
-        return val
-      end
-    end,
-    __call = function(cls, ...)
-      local _self_0 = setmetatable({}, _base_0)
-      cls.__init(_self_0, ...)
-      return _self_0
-    end
-  })
-  _base_0.__class = _class_0
-  if _parent_0.__inherited then
-    _parent_0.__inherited(_parent_0, _class_0)
-  end
-  Receiver = _class_0
 end
 return {
   Component = Component,
