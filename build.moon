@@ -1,8 +1,5 @@
-[[  evolbug 2016-2017
-
-automated build script for VSCode
-requires moonscript, and 7-Zip in PATH
-]]
+--    automated build script for VSCode
+--    requires moonscript, and 7-Zip in PATH
 
 moonc = (outf, inf) ->
     e, v = os.execute "moonc -o #{outf} #{inf}"
@@ -22,9 +19,9 @@ src  = '.\\source\\'           --source path
 dist = '.\\distribution\\'     --distro path
 
 scomfy  = src..'comfy.moon'    --source
-sguilty = src..'guilty2.moon'   --source
+sguilty = src..'guilty3.moon'  --source
 dcomfy  = dist..'comfy.lua'    --output
-dguilty = dist..'guilty2.lua'   --output
+dguilty = dist..'guilty3.lua'  --output
 
 smain = src..'main.moon'       --main source
 dmain = dist..'main.lua'       --main compiled

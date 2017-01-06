@@ -32,7 +32,7 @@ class Component
         return unpack args
 
     detach: (child) =>
-        table.remove @children, i for i,c in ipairs @children when c==child
+        table.remove @children, i for i,c in ipairs @children when c == child
 
     event: (events) =>
         for child in *@children
