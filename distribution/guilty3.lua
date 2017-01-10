@@ -3,155 +3,14 @@ do
   local _obj_0 = require('comfy')
   Component, Receiver = _obj_0.Component, _obj_0.Receiver
 end
+local theme
+theme = require('default-theme').theme
+local RGBA, approach, themeUpdate
+do
+  local _obj_0 = require('util')
+  RGBA, approach, themeUpdate = _obj_0.RGBA, _obj_0.approach, _obj_0.themeUpdate
+end
 local lg = love.graphics
-local RGBA
-RGBA = function(r, g, b, a)
-  if r == nil then
-    r = 1
-  end
-  if g == nil then
-    g = 1
-  end
-  if b == nil then
-    b = 1
-  end
-  if a == nil then
-    a = 1
-  end
-  if type(r) == 'string' and r:sub(1, 1) == '#' then
-    return {
-      tonumber(r:sub(2, 3), 16),
-      tonumber(r:sub(4, 5), 16),
-      tonumber(r:sub(6, 7), 16),
-      tonumber(r:sub(8, 9), 16)
-    }
-  end
-  if #(function()
-    local _accum_0 = { }
-    local _len_0 = 1
-    local _list_0 = {
-      r,
-      g,
-      b,
-      a
-    }
-    for _index_0 = 1, #_list_0 do
-      local i = _list_0[_index_0]
-      if i <= 1 then
-        _accum_0[_len_0] = i
-        _len_0 = _len_0 + 1
-      end
-    end
-    return _accum_0
-  end)() == 4 then
-    return {
-      r * 255,
-      g * 255,
-      b * 255,
-      a * 255
-    }
-  end
-  return {
-    r,
-    g,
-    b,
-    a
-  }
-end
-local defaultfont = 'FiraCode-Regular.ttf'
-local theme = {
-  Rectangle = {
-    color = RGBA('#455a64ff'),
-    fill = 'fill'
-  },
-  Ellipse = {
-    color = RGBA('#455a64ff'),
-    fill = 'fill'
-  },
-  Text = {
-    color = RGBA(0, 0, 0, 1),
-    font = defaultfont,
-    size = 12
-  },
-  Button = {
-    on = {
-      base = {
-        color = RGBA('#ff3d00ff'),
-        fill = 'fill'
-      },
-      label = {
-        color = RGBA(),
-        font = defaultfont,
-        size = 12
-      }
-    },
-    off = {
-      base = {
-        color = RGBA('#37474fff'),
-        fill = 'line'
-      },
-      label = {
-        color = RGBA(0, 0, 0, 1),
-        font = defaultfont,
-        size = 12
-      }
-    }
-  },
-  Checkbox = {
-    on = {
-      base = {
-        color = RGBA('#37474fff'),
-        fill = 'line'
-      },
-      check = {
-        color = RGBA('#ff3d00ff'),
-        fill = 'fill'
-      },
-      label = {
-        color = RGBA(0, 0, 0, 1),
-        font = defaultfont,
-        size = 12
-      }
-    },
-    off = {
-      base = {
-        color = RGBA('#37474fff'),
-        fill = 'line'
-      },
-      check = {
-        color = RGBA('#00000000'),
-        fill = 'fill'
-      },
-      label = {
-        color = RGBA(0, 0, 0, 1),
-        font = defaultfont,
-        size = 12
-      }
-    }
-  },
-  TextBox = {
-    base = {
-      color = RGBA('#37474fff'),
-      fill = 'line'
-    },
-    text = {
-      color = RGBA(0, 0, 0, 1),
-      font = defaultfont,
-      size = 12
-    }
-  }
-}
-local themeUpdate
-themeUpdate = function(t1, t2)
-  for k, v in pairs(t2) do
-    if (type(v) == "table") and (type(t1[k] or false) == "table") then
-      themeUpdate(t1[k], t2[k])
-    else
-      t1[k] = v
-    end
-  end
-  return t1
-end
 local WidgetBase
 do
   local _class_0
@@ -191,6 +50,11 @@ do
       lg.setColor(cr, cg, cb, ca)
       func(...)
       return lg.setColor(r, g, b, a)
+    end,
+    pushUpdate = function(self)
+      if self.parent then
+        self.parent.update = true
+      end
     end
   }
   _base_0.__index = _base_0
@@ -383,6 +247,76 @@ do
   end
   Focus = _class_0
 end
+local Scroll
+do
+  local _class_0
+  local _parent_0 = Component
+  local _base_0 = {
+    draw = function(self) end,
+    withinBoundary = function(self, x, y)
+      local px, py = self.parent:absolute()
+      local pw, ph = self.parent.w, self.parent.h
+      return x >= px and x <= px + pw and y >= py and y <= py + ph
+    end,
+    onWheel = function(self, x, y)
+      if self.parent.visible then
+        self.speed = self.parent.h / 4
+        if self.focus.focus then
+          self:scroll(x, y)
+        end
+        self.parent.update = true
+      end
+    end,
+    scroll = function(self, x, y)
+      if y > 0 then
+        if self.object.y <= 0 then
+          self.object.y = approach(self.object.y, 0, y * self.speed)
+        end
+      else
+        if self.object.y >= self.parent.h - self.object.h then
+          self.object.y = approach(self.object.y, self.parent.h - self.object.h, y * self.speed)
+        end
+      end
+      return self.parent:pushUpdate()
+    end
+  }
+  _base_0.__index = _base_0
+  setmetatable(_base_0, _parent_0.__base)
+  _class_0 = setmetatable({
+    __init = function(self, focus, object)
+      _class_0.__parent.__init(self)
+      self.focus = focus
+      self.object = object
+      self.speed = 0
+      return self:attach(Receiver('wheelmove', self.onWheel))
+    end,
+    __base = _base_0,
+    __name = "Scroll",
+    __parent = _parent_0
+  }, {
+    __index = function(cls, name)
+      local val = rawget(_base_0, name)
+      if val == nil then
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
+      else
+        return val
+      end
+    end,
+    __call = function(cls, ...)
+      local _self_0 = setmetatable({}, _base_0)
+      cls.__init(_self_0, ...)
+      return _self_0
+    end
+  })
+  _base_0.__class = _class_0
+  if _parent_0.__inherited then
+    _parent_0.__inherited(_parent_0, _class_0)
+  end
+  Scroll = _class_0
+end
 local Container
 do
   local _class_0
@@ -466,7 +400,11 @@ do
             end)())
           end
         end
-        return lg.draw(self.canvas, self.x, self.y)
+        lg.draw(self.canvas, self.x, self.y)
+        if self.update then
+          self.parent.update = true
+          self.update = false
+        end
       end
     end
   }
@@ -548,6 +486,60 @@ do
   end
   Rectangle = _class_0
 end
+local ScrollBar
+do
+  local _class_0
+  local _parent_0 = WidgetBase
+  local _base_0 = {
+    draw = function(self)
+      if self.visible then
+        do
+          local _with_0 = self.scrolledObject
+          self.h = _with_0.parent.h / (_with_0.h / _with_0.parent.h)
+          self.y = -_with_0.y / (_with_0.h / _with_0.parent.h)
+        end
+        local x, y = self:relative()
+        return self:colored(lg.rectangle, self.theme.fill, x, y, self.w, self.h)
+      end
+    end
+  }
+  _base_0.__index = _base_0
+  setmetatable(_base_0, _parent_0.__base)
+  _class_0 = setmetatable({
+    __init = function(self, scroller, scrolledObject)
+      _class_0.__parent.__init(self, scrolledObject.parent.w, 0, 0, 0)
+      self.x = self.x - (self.theme.width + 1)
+      self.w = self.theme.width
+      self.scroller = scroller
+      self.scrolledObject = scrolledObject
+    end,
+    __base = _base_0,
+    __name = "ScrollBar",
+    __parent = _parent_0
+  }, {
+    __index = function(cls, name)
+      local val = rawget(_base_0, name)
+      if val == nil then
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
+      else
+        return val
+      end
+    end,
+    __call = function(cls, ...)
+      local _self_0 = setmetatable({}, _base_0)
+      cls.__init(_self_0, ...)
+      return _self_0
+    end
+  })
+  _base_0.__class = _class_0
+  if _parent_0.__inherited then
+    _parent_0.__inherited(_parent_0, _class_0)
+  end
+  ScrollBar = _class_0
+end
 local Ellipse
 do
   local _class_0
@@ -622,6 +614,7 @@ do
       self.text = self:colorize(text)
       self.label:setf(self.text, wrap, align)
       self.w, self.h = self.label:getDimensions()
+      return self:pushUpdate()
     end,
     add = function(self, text, wrap, align)
       if wrap == nil then
@@ -637,10 +630,15 @@ do
       end
       self.label:setf(self.text, wrap, align)
       self.w, self.h = self.label:getDimensions()
+      if self.h > self.parent.h then
+        self.y = self.parent.h - self.h
+      end
+      return self:pushUpdate()
     end,
     clear = function(self)
       self.label:clear()
       self.text = { }
+      return self:pushUpdate()
     end,
     colorize = function(self, items)
       local newtable = { }
@@ -834,41 +832,16 @@ local TextBox
 do
   local _class_0
   local _parent_0 = Composite
-  local _base_0 = {
-    set = function(self, ...)
-      self.text:set(...)
-      self.parent.update = true
-    end,
-    add = function(self, ...)
-      self.text:add(...)
-      self.parent.update = true
-    end,
-    clear = function(self)
-      self.text:clear()
-      self.parent.update = true
-    end,
-    scroll = function(self, px)
-      local diff = self.w - self.text.w
-      return print(diff)
-    end
-  }
+  local _base_0 = { }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y, w, h)
       _class_0.__parent.__init(self, x, y, w, h)
       self.base = self:attach(Rectangle(0, 0, w, h))
-      self.text = self:attach(Text(2, 2, ''))
+      self.text = self:attach(Text(0, 0, ''))
       self.base.theme = self.theme.base
       self.text.theme = self.theme.text
-      do
-        local _with_0 = self:attach(Focus())
-        self.focus = _with_0
-        _with_0.focused = function(self)
-          return self.base.theme
-        end
-        return _with_0
-      end
     end,
     __base = _base_0,
     __name = "TextBox",
@@ -897,6 +870,62 @@ do
   end
   TextBox = _class_0
 end
+local ScrollText
+do
+  local _class_0
+  local _parent_0 = TextBox
+  local _base_0 = { }
+  _base_0.__index = _base_0
+  setmetatable(_base_0, _parent_0.__base)
+  _class_0 = setmetatable({
+    __init = function(self, x, y, w, h)
+      _class_0.__parent.__init(self, x, y, w, h)
+      self.base.theme = self.theme.off.base
+      self.text.theme = self.theme.off.text
+      do
+        local _with_0 = self:attach(Focus())
+        self.focus = _with_0
+        _with_0.focused = function()
+          self.base.theme = self.theme.on.base
+          self.text.theme = self.theme.on.text
+          self.parent.update = true
+        end
+        _with_0.lost = function()
+          self.base.theme = self.theme.off.base
+          self.text.theme = self.theme.off.text
+          self.parent.update = true
+        end
+      end
+      self.scroller = self:attach(Scroll(self.focus, self.text))
+      self.scrollbar = self:attach(ScrollBar(self.scroller, self.text))
+    end,
+    __base = _base_0,
+    __name = "ScrollText",
+    __parent = _parent_0
+  }, {
+    __index = function(cls, name)
+      local val = rawget(_base_0, name)
+      if val == nil then
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
+      else
+        return val
+      end
+    end,
+    __call = function(cls, ...)
+      local _self_0 = setmetatable({}, _base_0)
+      cls.__init(_self_0, ...)
+      return _self_0
+    end
+  })
+  _base_0.__class = _class_0
+  if _parent_0.__inherited then
+    _parent_0.__inherited(_parent_0, _class_0)
+  end
+  ScrollText = _class_0
+end
 return {
   RGBA = RGBA,
   Container = Container,
@@ -904,5 +933,8 @@ return {
   Text = Text,
   Button = Button,
   Checkbox = Checkbox,
-  TextBox = TextBox
+  TextBox = TextBox,
+  ScrollText = ScrollText,
+  themeUpdate = themeUpdate,
+  theme = theme
 }

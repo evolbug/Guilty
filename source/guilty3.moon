@@ -4,99 +4,9 @@
 
 
 import Component, Receiver from require 'comfy'
+import theme from require 'default-theme'
+import RGBA, approach, themeUpdate from require 'util'
 lg = love.graphics
-
-
-RGBA = (r=1, g=1, b=1, a=1) ->
-    if type(r) == 'string' and r\sub(1,1) == '#' -- hex (#xxxxxxxx)
-        return {
-            tonumber r\sub(2,3), 16  -- r
-            tonumber r\sub(4,5), 16  -- g
-            tonumber r\sub(6,7), 16  -- b
-            tonumber r\sub(8,9), 16  -- a
-        }
-
-    if #[i for i in *{r, g, b, a} when i<=1] == 4 -- opengl-style (<=1)
-        return {r*255, g*255, b*255, a*255}
-
-    return {r, g, b, a} -- standard rgba 0->255
-
-
-
-defaultfont = 'FiraCode-Regular.ttf'
-theme =
-    Rectangle:
-        color: RGBA '#455a64ff'
-        fill: 'fill'
-
-    Ellipse:
-        color: RGBA '#455a64ff'
-        fill: 'fill'
-
-    Text:
-        color: RGBA 0,0,0,1
-        font: defaultfont
-        size: 12
-
-    Button:
-        on:
-            base:
-                color: RGBA '#ff3d00ff'
-                fill: 'fill'
-            label:
-                color: RGBA!
-                font: defaultfont
-                size: 12
-        off:
-            base:
-                color: RGBA '#37474fff'
-                fill: 'line'
-            label:
-                color: RGBA 0,0,0,1
-                font: defaultfont
-                size: 12
-
-    Checkbox:
-        on:
-            base:
-                color: RGBA '#37474fff'
-                fill: 'line'
-            check:
-                color: RGBA '#ff3d00ff'
-                fill: 'fill'
-            label:
-                color: RGBA 0,0,0,1
-                font: defaultfont
-                size: 12
-        off:
-            base:
-                color: RGBA '#37474fff'
-                fill: 'line'
-            check:
-                color: RGBA '#00000000'
-                fill: 'fill'
-            label:
-                color: RGBA 0,0,0,1
-                font: defaultfont
-                size: 12
-
-    TextBox:
-        base:
-            color: RGBA '#37474fff'
-            fill: 'line'
-        text:
-            color: RGBA 0,0,0,1
-            font: defaultfont
-            size: 12
-
-themeUpdate = (t1, t2) ->
-    for k, v in pairs t2
-        if (type(v) == "table") and (type(t1[k] or false) == "table")
-            themeUpdate t1[k], t2[k]
-        else
-            t1[k] = v
-    return t1
-
 
 
 class WidgetBase extends Component
@@ -139,7 +49,8 @@ class WidgetBase extends Component
         func ...
         lg.setColor r, g, b, a
 
-
+    pushUpdate: => @parent.update = true if @parent
+    
 
 --  EXTENSIONS
 class Clickable extends Component
@@ -216,6 +127,41 @@ class Focus extends Component
                 @parent.update = true
 
 
+class Scroll extends Component
+    --  widget scroll component
+
+    new: (focus, object) =>
+        super!
+        @focus = focus
+        @object = object
+        @speed = 0
+        @attach Receiver 'wheelmove', @onWheel
+
+    draw: =>
+
+    withinBoundary: (x, y) =>
+        px, py = @parent\absolute!
+        pw, ph = @parent.w, @parent.h
+        return x>=px and x<=px+pw and y>=py and y<=py+ph
+
+    onWheel: (x, y) => -- received wheel event
+        if @parent.visible
+            @speed = @parent.h/4
+            @scroll x, y if @focus.focus
+            @parent.update = true
+
+    scroll: (x, y) =>
+        if y>0 -- scroll down
+            if @object.y <= 0
+                @object.y = approach @object.y, 0, y*@speed
+
+        else -- scroll up
+            if @object.y >= @parent.h - @object.h
+                @object.y = approach @object.y, @parent.h - @object.h, y*@speed
+                
+        @parent\pushUpdate!
+
+
 --  CONTAINER TYPES
 class Container extends WidgetBase
     new: (x, y, w, h) =>
@@ -239,6 +185,9 @@ class Composite extends Container
             for child in *@children
                 @canvas\renderTo child\draw if child.visible
             lg.draw @canvas, @x, @y
+            if @update
+                @parent.update = true
+                @update = false
 
 
 
@@ -249,6 +198,22 @@ class Rectangle extends WidgetBase
             x, y = @relative!
             @colored lg.rectangle, @theme.fill, x, y, @w, @h
 
+class ScrollBar extends WidgetBase
+    new: (scroller, scrolledObject) =>
+        super scrolledObject.parent.w, 0, 0, 0
+        @x -= @theme.width+1
+        @w = @theme.width
+        @scroller = scroller
+        @scrolledObject = scrolledObject
+
+    draw: =>
+        if @visible
+            with @scrolledObject
+                @h = .parent.h / (.h / .parent.h)
+                @y = -.y / (.h / .parent.h)
+
+            x, y = @relative!
+            @colored lg.rectangle, @theme.fill, x, y, @w, @h
 
 class Ellipse extends WidgetBase
     draw: =>
@@ -265,8 +230,7 @@ class Text extends WidgetBase
         @label = lg.newText lg.newFont(@theme.font, @theme.size), @text
         @w, @h = @label\getDimensions!
 
-    draw: =>
-        if @visible then lg.draw @label, @relative!
+    draw: => lg.draw @label, @relative! if @visible
 
     getDimensions: => @label\getDimensions!
     getWidth: => @label\getWidth!
@@ -276,15 +240,19 @@ class Text extends WidgetBase
         @text = @colorize text
         @label\setf @text, wrap, align
         @w, @h = @label\getDimensions!
+        @pushUpdate!
 
     add: (text, wrap=@parent.w, align='left') =>
         table.insert @text, item for item in *@colorize text
         @label\setf @text, wrap, align
         @w, @h = @label\getDimensions!
+        @y = @parent.h-@h if @h > @parent.h
+        @pushUpdate!
 
     clear: =>
         @label\clear!
         @text = {}
+        @pushUpdate!
 
     colorize: (items) =>
         newtable = {}
@@ -365,35 +333,36 @@ class TextBox extends Composite
         super x, y, w, h
         
         @base = @attach Rectangle 0, 0, w, h
-        @text = @attach Text 2, 2, ''
+        @text = @attach Text 0, 0, ''
 
         @base.theme = @theme.base
         @text.theme = @theme.text
 
+class ScrollText extends TextBox
+    new: (x, y, w, h) =>
+        super x, y, w, h
+
+        @base.theme = @theme.off.base
+        @text.theme = @theme.off.text
+
         with @focus = @attach Focus!
-            .focused = => @base.theme
+            .focused = ->
+                @base.theme = @theme.on.base
+                @text.theme = @theme.on.text
+                @parent.update = true
 
-    set: (...) =>
-        @text\set ...
-        @parent.update = true
+            .lost = ->
+                @base.theme = @theme.off.base
+                @text.theme = @theme.off.text
+                @parent.update = true
 
-    add: (...) =>
-        @text\add ...
-        @parent.update = true
-
-    clear: =>
-        @text\clear!
-        @parent.update = true
-    
-    scroll: (px) =>
-        diff = @w - @text.w
-        print diff
-
-
+        @scroller = @attach Scroll @focus, @text
+        @scrollbar = @attach ScrollBar @scroller, @text
 
 {
     :RGBA,
     :Container,
     :Rectangle, :Text,
-    :Button, :Checkbox, :TextBox
+    :Button, :Checkbox, :TextBox, :ScrollText,
+    :themeUpdate, :theme
 }

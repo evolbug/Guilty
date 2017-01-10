@@ -19,9 +19,16 @@ src  = '.\\source\\'           --source path
 dist = '.\\distribution\\'     --distro path
 
 scomfy  = src..'comfy.moon'    --source
-sguilty = src..'guilty3.moon'  --source
 dcomfy  = dist..'comfy.lua'    --output
+
+sguilty = src..'guilty3.moon'  --source
 dguilty = dist..'guilty3.lua'  --output
+
+stheme = src..'default-theme.moon' -- theme source
+dtheme = dist..'default-theme.lua' -- theme compiled
+
+sutil = src..'util.moon'       -- utility functions source
+dutil = dist..'util.lua'       -- utility functions compiled
 
 smain = src..'main.moon'       --main source
 dmain = dist..'main.lua'       --main compiled
@@ -29,6 +36,8 @@ dmain = dist..'main.lua'       --main compiled
 -- compile
 moonc dcomfy,   scomfy
 moonc dguilty,  sguilty
+moonc dtheme,   stheme
+moonc dutil,    sutil
 moonc dmain,    smain
 
 -- package
