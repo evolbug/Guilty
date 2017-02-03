@@ -1,3 +1,17 @@
+local dump
+dump = function(table, tab)
+  if tab == nil then
+    tab = ''
+  end
+  for key, item in pairs(table) do
+    if 'table' == type(item) then
+      print(tab .. key .. ': --[' .. tostring(item) .. ']')
+      dump(item, tab .. '  ')
+    else
+      print(tab .. key .. ': ' .. item)
+    end
+  end
+end
 local RGBA
 RGBA = function(r, g, b, a)
   if r == nil then
@@ -63,8 +77,12 @@ end
 local themeUpdate
 themeUpdate = function(t1, t2)
   for k, v in pairs(t2) do
-    if (type(v) == "table") and (type(t1[k] or false) == "table") then
-      themeUpdate(t1[k], t2[k])
+    if "table" == type(v) then
+      if type(t1[k] or false) == "table" then
+        themeUpdate(t1[k] or { }, t2[k] or { })
+      else
+        t1[k] = v
+      end
     else
       t1[k] = v
     end
@@ -74,5 +92,6 @@ end
 return {
   RGBA = RGBA,
   approach = approach,
-  themeUpdate = themeUpdate
+  themeUpdate = themeUpdate,
+  dump = dump
 }

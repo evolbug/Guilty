@@ -1,7 +1,3 @@
-local _ = [[  evolbug 2016-2017, MIT license
-
-Comfy, a lightweight component framework
-]]
 local Receiver
 do
   local _class_0
@@ -23,7 +19,6 @@ do
   _base_0.__index = _base_0
   _class_0 = setmetatable({
     __init = function(self, event, callback)
-      self.__component__ = true
       self.parent = nil
       self.ev = event
       self.fn = callback
@@ -46,7 +41,7 @@ do
   local _class_0
   local _base_0 = {
     attach = function(self, ...)
-      local args = not (...).__component__ and ... or {
+      local args = not (...).__class == Component and ... or {
         ...
       }
       for _index_0 = 1, #args do
@@ -85,12 +80,23 @@ do
           child:event(...)
         end
       end
+    end,
+    rise = function(self, ...)
+      if self.parent then
+        local _list_0 = self.parent.children
+        for _index_0 = 1, #_list_0 do
+          local child = _list_0[_index_0]
+          if child.__class == Receiver then
+            child:event(...)
+          end
+        end
+        return self.parent:rise(...)
+      end
     end
   }
   _base_0.__index = _base_0
   _class_0 = setmetatable({
     __init = function(self)
-      self.__component__ = true
       self.children = { }
       self.parent = nil
     end,

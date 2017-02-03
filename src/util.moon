@@ -1,3 +1,11 @@
+dump = (table, tab='') ->
+    for key, item in pairs table
+        if 'table' == type item
+            print tab..key..': --['..tostring(item)..']'
+            dump item, tab..'  '
+        else
+            print tab..key..': '..item
+
 RGBA = (r=1, g=1, b=1, a=1) ->
     if type(r) == 'string' and r\sub(1,1) == '#' -- hex (#xxxxxxxx)
         return {
@@ -18,12 +26,16 @@ approach = (curr, goal, step) ->
     else
         return step<0 and goal or curr+step
 
-themeUpdate = (t1, t2) ->
-    for k, v in pairs t2
-        if (type(v) == "table") and (type(t1[k] or false) == "table")
-            themeUpdate t1[k], t2[k]
+themeUpdate = (t1, t2) -> -- deep merge
+    for k,v in pairs t2
+        if "table" == type v
+            if type(t1[k] or false) == "table"
+                themeUpdate t1[k] or {}, t2[k] or {}
+            else
+                t1[k] = v
         else
             t1[k] = v
+
     return t1
 
-{:RGBA, :approach, :themeUpdate}
+{:RGBA, :approach, :themeUpdate, :dump}

@@ -4,7 +4,7 @@ do
   Component, Receiver = _obj_0.Component, _obj_0.Receiver
 end
 local theme
-theme = require('default-theme').theme
+theme = require('theme').theme
 local RGBA, approach, themeUpdate
 do
   local _obj_0 = require('util')
@@ -41,7 +41,7 @@ do
     end,
     draw = function(self) end,
     colored = function(self, func, ...)
-      local r, g, b, a = lg.getColor()
+      lg.push('all')
       local cr, cg, cb, ca
       do
         local _obj_0 = self.theme.color
@@ -49,12 +49,7 @@ do
       end
       lg.setColor(cr, cg, cb, ca)
       func(...)
-      return lg.setColor(r, g, b, a)
-    end,
-    pushUpdate = function(self)
-      if self.parent then
-        self.parent.update = true
-      end
+      return lg.pop()
     end
   }
   _base_0.__index = _base_0
@@ -66,6 +61,9 @@ do
       self.update = true
       self.theme = theme[self.__class.__name]
       self.visible = true
+      return self:attach(Receiver('update', function()
+        self.update = true
+      end))
     end,
     __base = _base_0,
     __name = "WidgetBase",
@@ -99,7 +97,6 @@ do
   local _class_0
   local _parent_0 = Component
   local _base_0 = {
-    draw = function(self) end,
     withinBoundary = function(self, x, y)
       local px, py = self.parent:absolute()
       local pw, ph = self.parent.w, self.parent.h
@@ -118,14 +115,14 @@ do
         if button == 3 then
           self:tertiary(x, y)
         end
-        self.parent.update = true
+        return self:rise('update')
       end
     end,
     onRelease = function(self, x, y, button, istouch)
       if self.parent.visible and self:withinBoundary(x, y) then
         self:release(x, y)
         self:_release(x, y)
-        self.parent.update = true
+        return self:rise('update')
       end
     end
   }
@@ -182,26 +179,26 @@ end
 local Focus
 do
   local _class_0
+  local currentFocus
   local _parent_0 = Component
   local _base_0 = {
-    draw = function(self) end,
     withinBoundary = function(self, x, y)
       local px, py = self.parent:absolute()
       local pw, ph = self.parent.w, self.parent.h
       return x >= px and x <= px + pw and y >= py and y <= py + ph
     end,
-    onClick = function(self, x, y)
+    onFocus = function(self, x, y)
       if self.parent.visible and self:withinBoundary(x, y) then
         if not self.focus then
           self.focus = true
           self:focused()
-          self.parent.update = true
+          return self:rise('update')
         end
       else
-        if self.focus then
+        if self.focus and not self.persistent then
           self.focus = false
           self:lost()
-          self.parent.update = true
+          return self:rise('update')
         end
       end
     end
@@ -209,7 +206,10 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self)
+    __init = function(self, response)
+      if response == nil then
+        response = 'mousepress'
+      end
       _class_0.__parent.__init(self)
       self.focus = false
       self.focused = function(self)
@@ -218,7 +218,7 @@ do
       self.lost = function(self)
         return print(self.parent.__class.__name .. ' lost focus')
       end
-      return self:attach(Receiver('mousepress', self.onClick))
+      return self:attach(Receiver(response, self.onFocus))
     end,
     __base = _base_0,
     __name = "Focus",
@@ -242,6 +242,8 @@ do
     end
   })
   _base_0.__class = _class_0
+  local self = _class_0
+  currentFocus = nil
   if _parent_0.__inherited then
     _parent_0.__inherited(_parent_0, _class_0)
   end
@@ -252,7 +254,6 @@ do
   local _class_0
   local _parent_0 = Component
   local _base_0 = {
-    draw = function(self) end,
     withinBoundary = function(self, x, y)
       local px, py = self.parent:absolute()
       local pw, ph = self.parent.w, self.parent.h
@@ -264,7 +265,7 @@ do
         if self.focus.focus then
           self:scroll(x, y)
         end
-        self.parent.update = true
+        return self:rise('update')
       end
     end,
     scroll = function(self, x, y)
@@ -276,8 +277,8 @@ do
         if self.object.y >= self.parent.h - self.object.h then
           self.object.y = approach(self.object.y, self.parent.h - self.object.h, y * self.speed)
         end
+        return self:rise('update')
       end
-      return self.parent:pushUpdate()
     end
   }
   _base_0.__index = _base_0
@@ -390,7 +391,13 @@ do
         local _list_0 = self.children
         for _index_0 = 1, #_list_0 do
           local child = _list_0[_index_0]
-          if child.visible then
+          if child.visible and (function()
+            local _base_1 = child
+            local _fn_0 = _base_1.draw
+            return function(...)
+              return _fn_0(_base_1, ...)
+            end
+          end)() then
             self.canvas:renderTo((function()
               local _base_1 = child
               local _fn_0 = _base_1.draw
@@ -402,7 +409,7 @@ do
         end
         lg.draw(self.canvas, self.x, self.y)
         if self.update then
-          self.parent.update = true
+          self:rise('update')
           self.update = false
         end
       end
@@ -486,6 +493,51 @@ do
   end
   Rectangle = _class_0
 end
+local Border
+do
+  local _class_0
+  local _parent_0 = Rectangle
+  local _base_0 = {
+    draw = function(self)
+      if self.visible then
+        local x, y = self:relative()
+        return self:colored(lg.rectangle, 'line', x, y, self.parent.w, self.parent.h)
+      end
+    end
+  }
+  _base_0.__index = _base_0
+  setmetatable(_base_0, _parent_0.__base)
+  _class_0 = setmetatable({
+    __init = function(self)
+      return _class_0.__parent.__init(self, 0, 0, 1, 1)
+    end,
+    __base = _base_0,
+    __name = "Border",
+    __parent = _parent_0
+  }, {
+    __index = function(cls, name)
+      local val = rawget(_base_0, name)
+      if val == nil then
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
+      else
+        return val
+      end
+    end,
+    __call = function(cls, ...)
+      local _self_0 = setmetatable({}, _base_0)
+      cls.__init(_self_0, ...)
+      return _self_0
+    end
+  })
+  _base_0.__class = _class_0
+  if _parent_0.__inherited then
+    _parent_0.__inherited(_parent_0, _class_0)
+  end
+  Border = _class_0
+end
 local ScrollBar
 do
   local _class_0
@@ -508,7 +560,7 @@ do
   _class_0 = setmetatable({
     __init = function(self, scroller, scrolledObject)
       _class_0.__parent.__init(self, scrolledObject.parent.w, 0, 0, 0)
-      self.x = self.x - (self.theme.width + 1)
+      self.x = self.x - self.theme.width
       self.w = self.theme.width
       self.scroller = scroller
       self.scrolledObject = scrolledObject
@@ -614,7 +666,7 @@ do
       self.text = self:colorize(text)
       self.label:setf(self.text, wrap, align)
       self.w, self.h = self.label:getDimensions()
-      return self:pushUpdate()
+      return self:rise('update')
     end,
     add = function(self, text, wrap, align)
       if wrap == nil then
@@ -633,12 +685,12 @@ do
       if self.h > self.parent.h then
         self.y = self.parent.h - self.h
       end
-      return self:pushUpdate()
+      return self:rise('update')
     end,
     clear = function(self)
       self.label:clear()
       self.text = { }
-      return self:pushUpdate()
+      return self:rise('update')
     end,
     colorize = function(self, items)
       local newtable = { }
@@ -722,12 +774,12 @@ do
       self.onclick._any = function()
         self.panel.theme = self.theme.on.base
         self.label.theme = self.theme.on.label
-        self.parent.update = true
+        return self:rise('update')
       end
       self.onclick._release = function()
         self.panel.theme = self.theme.off.base
         self.label.theme = self.theme.off.label
-        self.parent.update = true
+        return self:rise('update')
       end
     end,
     __base = _base_0,
@@ -870,7 +922,7 @@ do
   end
   TextBox = _class_0
 end
-local ScrollText
+local TextBoxScrollable
 do
   local _class_0
   local _parent_0 = TextBox
@@ -883,24 +935,24 @@ do
       self.base.theme = self.theme.off.base
       self.text.theme = self.theme.off.text
       do
-        local _with_0 = self:attach(Focus())
+        local _with_0 = self:attach(Focus('mousemove'))
         self.focus = _with_0
         _with_0.focused = function()
           self.base.theme = self.theme.on.base
           self.text.theme = self.theme.on.text
-          self.parent.update = true
+          return self:rise('update')
         end
         _with_0.lost = function()
           self.base.theme = self.theme.off.base
           self.text.theme = self.theme.off.text
-          self.parent.update = true
+          return self:rise('update')
         end
       end
       self.scroller = self:attach(Scroll(self.focus, self.text))
       self.scrollbar = self:attach(ScrollBar(self.scroller, self.text))
     end,
     __base = _base_0,
-    __name = "ScrollText",
+    __name = "TextBoxScrollable",
     __parent = _parent_0
   }, {
     __index = function(cls, name)
@@ -924,17 +976,58 @@ do
   if _parent_0.__inherited then
     _parent_0.__inherited(_parent_0, _class_0)
   end
-  ScrollText = _class_0
+  TextBoxScrollable = _class_0
+end
+local List
+do
+  local _class_0
+  local _parent_0 = Composite
+  local _base_0 = { }
+  _base_0.__index = _base_0
+  setmetatable(_base_0, _parent_0.__base)
+  _class_0 = setmetatable({
+    __init = function(self, x, y, w, h)
+      _class_0.__parent.__init(self, x, y, w, h)
+      self.base = self:attach(Rectangle(0, 0, w, h))
+    end,
+    __base = _base_0,
+    __name = "List",
+    __parent = _parent_0
+  }, {
+    __index = function(cls, name)
+      local val = rawget(_base_0, name)
+      if val == nil then
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
+      else
+        return val
+      end
+    end,
+    __call = function(cls, ...)
+      local _self_0 = setmetatable({}, _base_0)
+      cls.__init(_self_0, ...)
+      return _self_0
+    end
+  })
+  _base_0.__class = _class_0
+  if _parent_0.__inherited then
+    _parent_0.__inherited(_parent_0, _class_0)
+  end
+  List = _class_0
 end
 return {
   RGBA = RGBA,
   Container = Container,
   Rectangle = Rectangle,
+  Border = Border,
   Text = Text,
+  TextBox = TextBox,
+  TextBoxScrollable = TextBoxScrollable,
   Button = Button,
   Checkbox = Checkbox,
-  TextBox = TextBox,
-  ScrollText = ScrollText,
+  List = List,
   themeUpdate = themeUpdate,
   theme = theme
 }

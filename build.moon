@@ -1,47 +1,32 @@
---    automated build script for VSCode
+#!/usr/local/bin/moon
 --    requires moonscript, and 7-Zip in PATH
 
-moonc = (outf, inf) ->
-    e, v = os.execute "moonc -o #{outf} #{inf}"
-    if e != 0
-        print 'failed to compile'..inf
-        error v
+moonc = (files) ->
+    for outf, inf in pairs files
+        e, v = os.execute "moonc -o #{outf} #{inf}"
+        if e == nil
+            print 'failed to compile '..inf
+            error v
 
-package = (ind, outf) ->
-    os.execute "7z a #{outf}.zip #{ind}\\* >NUL"
-    os.execute "del #{outf}.love"
-    os.execute "rename #{outf}.zip #{outf}.love"
+package = (targets) ->
+    for dir, package in pairs targets
+        os.execute "7z a #{package}.zip #{dir}/* >/dev/null"
+        os.execute "mv #{package}.zip #{package}.love"
 
 run = (love) ->
-    os.execute "love #{love}.love"
-
-src  = '.\\source\\'           --source path
-dist = '.\\distribution\\'     --distro path
-
-scomfy  = src..'comfy.moon'    --source
-dcomfy  = dist..'comfy.lua'    --output
-
-sguilty = src..'guilty3.moon'  --source
-dguilty = dist..'guilty3.lua'  --output
-
-stheme = src..'default-theme.moon' -- theme source
-dtheme = dist..'default-theme.lua' -- theme compiled
-
-sutil = src..'util.moon'       -- utility functions source
-dutil = dist..'util.lua'       -- utility functions compiled
-
-smain = src..'main.moon'       --main source
-dmain = dist..'main.lua'       --main compiled
+    os.execute "echo Running...; love #{love}.love; echo Done."
 
 -- compile
-moonc dcomfy,   scomfy
-moonc dguilty,  sguilty
-moonc dtheme,   stheme
-moonc dutil,    sutil
-moonc dmain,    smain
+moonc
+    'dist/theme.lua': 'src/theme.moon'
+    'dist/comfy.lua': 'src/comfy.moon'
+    'dist/guilty.lua': 'src/guilty.moon'
+    'dist/util.lua': 'src/util.moon'
+    'dist/main.lua': 'src/main.moon'
 
 -- package
-package dist, 'guilty'
+package
+    './dist': 'Guilty'
 
 -- run
-run 'guilty'
+run 'Guilty'
