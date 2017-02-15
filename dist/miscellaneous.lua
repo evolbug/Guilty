@@ -1,4 +1,4 @@
-Guilty GUI framework:
+local LICENSE = [[Guilty GUI framework:
 
 Copyright (c) 2017 Daniels Kursits
 
@@ -65,3 +65,7 @@ This software uses GohuFont:
    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 
 
   0. You just DO WHAT THE FUCK YOU WANT TO.
+]]
+return {
+  LICENSE = LICENSE
+}

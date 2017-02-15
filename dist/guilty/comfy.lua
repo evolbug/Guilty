@@ -65,32 +65,32 @@ do
         child:event(events)
       end
     end,
-    bubble = function(self, ...)
+    bubble = function(self, events)
       local _list_0 = self.children
       for _index_0 = 1, #_list_0 do
         local child = _list_0[_index_0]
         if child.__class ~= Receiver then
-          child:bubble(...)
+          child:bubble(events)
         end
       end
       local _list_1 = self.children
       for _index_0 = 1, #_list_1 do
         local child = _list_1[_index_0]
         if child.__class == Receiver then
-          child:event(...)
+          child:event(events)
         end
       end
     end,
-    rise = function(self, ...)
+    rise = function(self, events)
       if self.parent then
         local _list_0 = self.parent.children
         for _index_0 = 1, #_list_0 do
           local child = _list_0[_index_0]
           if child.__class == Receiver then
-            child:event(...)
+            child:event(events)
           end
         end
-        return self.parent:rise(...)
+        return self.parent:rise(events)
       end
     end
   }

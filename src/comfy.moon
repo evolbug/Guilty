@@ -46,27 +46,27 @@ class Component
 
         child\event events for child in *@children
 
-    bubble: (...) =>
+    bubble: (events) =>
         -- bubble event propagation
         -- event is pushed down and propagates from the deepest branch up
 
         for child in *@children
             if child.__class != Receiver
-                child\bubble ...
+                child\bubble events
 
         for child in *@children
             if child.__class == Receiver
-                child\event ...
+                child\event events
 
-    rise: (...) =>
+    rise: (events) =>
         -- rising event propagation
         -- event is pushed upwards to all parents
 
         if @parent
             for child in *@parent.children
                 if child.__class == Receiver
-                    child\event ...
-            @parent\rise ...
+                    child\event events
+            @parent\rise events
 
 
 
