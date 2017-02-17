@@ -48,11 +48,11 @@ class Container extends WidgetBase
 --  COMPOSITES -----------------------------------------------------------
 
 class Button extends Container
-    new: (x, y, w, h, label) =>
+    new: (x, y, w, h, text) =>
         super x, y, w, h
 
         @panel = @attach Rectangle 0, 0, w, h
-        @text = @attach Text 'center', 'center', label
+        @text = @attach Text 'center', 'center', text
         
         @onclick = @attach Clickable!
 
