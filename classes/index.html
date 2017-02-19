@@ -1,0 +1,931 @@
+
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Guilty - a Love2D GUI library">
+      
+      
+      
+        <meta name="author" content="Daniels Kursits">
+      
+      
+        <link rel="shortcut icon" href="../assets/images/favicon.ico">
+      
+      <meta name="generator" content="mkdocs+mkdocs-material#1.0.3">
+    
+    
+      
+        <title>Classes - Guilty</title>
+      
+    
+    
+      <script src="../assets/javascripts/modernizr-facb31f4a3.js"></script>
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira Sans:300,400,400i,700|Fira+Code">
+        <style>body,input{font-family:"Fira Sans","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Fira Code","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application-f3ab63f78a.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-02ce7adcc2.palette.css">
+      
+      
+    
+    
+  </head>
+  
+  
+  
+  
+    <body data-md-color-primary="pink" data-md-color-accent="blue">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="Guilty" class=" md-icon md-icon--home  md-header-nav__button">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+            
+            Classes
+          
+        </span>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+          
+<div class="md-search" data-md-component="search">
+  <div class="md-search__overlay"></div>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false">
+      <label class="md-icon md-search__icon" for="search"></label>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+              
+
+
+  
+
+
+  <a href="https://github.com/evolbug/Guilty" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+            
+          </div>
+      </div>
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <i class=" md-icon md-icon--home  md-nav__button">
+      
+    </i>
+    Guilty
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/evolbug/Guilty" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  <li class="md-nav__item">
+    
+      <a href=".." title="Home" class="md-nav__link">
+        Home
+      </a>
+    
+  </li>
+
+    
+      
+      
+  <li class="md-nav__item">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Classes
+      </label>
+    
+    <a href="./" title="Classes" class="md-nav__link md-nav__link--active">
+      Classes
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#components" title="Components" class="md-nav__link">
+    Components
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component" title="Component" class="md-nav__link">
+    Component
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primitives" title="Primitives" class="md-nav__link">
+    Primitives
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#widgetbase" title="WidgetBase" class="md-nav__link">
+    WidgetBase
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rectangle" title="Rectangle" class="md-nav__link">
+    Rectangle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text" title="Text" class="md-nav__link">
+    Text
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#composites" title="Composites" class="md-nav__link">
+    Composites
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#container" title="Container" class="md-nav__link">
+    Container
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#button" title="Button" class="md-nav__link">
+    Button
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkbox" title="Checkbox" class="md-nav__link">
+    Checkbox
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#textbox" title="TextBox" class="md-nav__link">
+    TextBox
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#textboxscrollable" title="TextBoxScrollable" class="md-nav__link">
+    TextBoxScrollable
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#textinput" title="TextInput" class="md-nav__link">
+    TextInput
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#components" title="Components" class="md-nav__link">
+    Components
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component" title="Component" class="md-nav__link">
+    Component
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primitives" title="Primitives" class="md-nav__link">
+    Primitives
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#widgetbase" title="WidgetBase" class="md-nav__link">
+    WidgetBase
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rectangle" title="Rectangle" class="md-nav__link">
+    Rectangle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text" title="Text" class="md-nav__link">
+    Text
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#composites" title="Composites" class="md-nav__link">
+    Composites
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#container" title="Container" class="md-nav__link">
+    Container
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#button" title="Button" class="md-nav__link">
+    Button
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkbox" title="Checkbox" class="md-nav__link">
+    Checkbox
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#textbox" title="TextBox" class="md-nav__link">
+    TextBox
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#textboxscrollable" title="TextBoxScrollable" class="md-nav__link">
+    TextBoxScrollable
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#textinput" title="TextInput" class="md-nav__link">
+    TextInput
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+               
+                 <a href="https://github.com/evolbug/Guilty/edit/master/docs/classes.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
+               
+              
+                
+                <style>
+    class { border-left: 4px solid #08D7; padding: 5px 20px;}
+    .admonition-title { font-family: 'Fira Code'; font-weight: 500 }
+    .admonition-title > em, i { color: #0006; font-weight: 400; }
+    .admonition-title > strong, b { color: #08df }
+    .admonition { font-family: 'Fira Code'; font-weight: 400;}
+    .md-typeset .codehilite { background-color: transparent; border: 1px solid #08d6}
+    desc { position: relative; left: 5px; color: #0009; }
+</style>
+
+<h1 id="classes">Classes<a class="headerlink" href="#classes" title="Permanent link">&para;</a></h1>
+<p>There are 3 categories for Guilty's classes.</p>
+<ul>
+<li>Primitives</li>
+<li>Extensions</li>
+<li>Composites</li>
+</ul>
+<p>Their relations are simple, Primitives are the most basic components, providing base building blocks for Composites, i.e. the widgets themselves. Extensions are what give Composites their functionality, like making them responsive to clicks, text input, etc.</p>
+<p>Below each class is described with properties, methods and events they can receive.</p>
+<div class="admonition note">
+<p><em>type</em> <strong>property_name</strong><br />
+<desc>This describes properties</desc></p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Events</p>
+<p><div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="err">&lt;</span><span class="nf">event</span><span class="o">&gt;</span><span class="p">()</span>
+    <span class="n">widget</span><span class="p">:</span><span class="n">event</span><span class="p">(</span><span class="o">&lt;</span><span class="n">event</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="kr">end</span>
+</pre></div>
+
+<desc>This block describes events</desc></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:method( <em>type</em> <strong>name</strong> ) <a>&rarr; nil</a></p>
+<p><desc>This is a method definition</desc></p>
+</div>
+<div class="admonition warning">
+<p>The class descriptions show only differences from their parent class. To collect all functions and properties a class has, look at the class they extend.</p>
+</div>
+<h2 id="components">Components<a class="headerlink" href="#components" title="Permanent link">&para;</a></h2>
+<h3 id="component"><class>Component</class><a class="headerlink" href="#component" title="Permanent link">&para;</a></h3>
+<p>Guilty is built on a component framework called Comfy, and thus all classes of Guilty possess these methods and properties:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Component</span>
+</pre></div>
+
+
+<div class="admonition summary">
+<p class="admonition-title">Component() <a>&rarr; self</a></p>
+</div>
+<div class="admonition note">
+<p><em>table</em> <strong>children</strong><br />
+<desc>a list containing all attached children</desc></p>
+<p><em>Component</em> <strong>parent</strong><br />
+<desc>the component this one is attached to</desc></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:attach(<em>Component</em> <strong>...</strong>) <a>&rarr; ...</a></p>
+<p><desc>
+Attaches other <strong>child</strong> to self and collects it in <strong>children</strong>.
+The attached <strong>child</strong>'s <strong>parent</strong> will be set to <strong>self</strong>.<br />
+This function is used most often to attach elements to one another, e.g. attach a <strong>Button</strong> to a <strong>Container</strong>.
+</desc></p>
+<div class="admonition warning">
+<p>Attaching <strong>child</strong> will override its variable <strong>parent</strong>.<br />
+A component should be attached to only one parent.</p>
+</div>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:detach(<em>Component</em> <strong>child</strong>) <a>&rarr; nil</a></p>
+<p><desc>
+Detaches <strong>child</strong> from self, removing it from <strong>children</strong>.
+</desc></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:event(<em>table</em> <strong>events</strong>) <a>&rarr; nil</a></p>
+<p><desc>
+Standard event propagation. Push <strong>events</strong> down to all <strong>children</strong>.<br />
+Events are handled first-come-first-serve.
+</desc></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:bubble(<em>table</em> <strong>events</strong>) <a>&rarr; nil</a></p>
+<p><desc>
+Push-down-bubble event propagation. Push <strong>events</strong> down to all <strong>children</strong> but handle bottom-up.<br />
+Events are handled starting from the deepest child in the tree upwards.
+</desc></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:rise(<em>table</em> <strong>events</strong>) <a>&rarr; nil</a></p>
+<p><desc>
+Rising event propagation. Push <strong>events</strong> up to <strong>parent</strong>.<br />
+Events are handled by <strong>parent</strong>s, pushing them upwards with <strong>:rise()</strong> until the topmost <strong>parent</strong> is reached.
+</desc></p>
+</div>
+<h2 id="primitives">Primitives<a class="headerlink" href="#primitives" title="Permanent link">&para;</a></h2>
+<p>Primitives are used to build more complex widgets, although they can be used on their own.</p>
+<h3 id="widgetbase"><class>WidgetBase</class><a class="headerlink" href="#widgetbase" title="Permanent link">&para;</a></h3>
+<p><strong>WidgetBase</strong> is the base of all widget classes. It provides and manages the bare necessities of a widget.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">WidgetBase</span> <span class="k">extends</span> <span class="nc">Component</span>
+</pre></div>
+
+
+<div class="admonition summary">
+<p class="admonition-title">WidgetBase(<em>number</em> <strong>x</strong>, <em>number</em> <strong>y</strong>, <em>number</em> <strong>w</strong>, <em>number</em> <strong>h</strong>) <a>&rarr; self</a></p>
+</div>
+<div class="admonition note">
+<p><em>number</em> <strong>x</strong>, <strong>y</strong><br />
+<desc>position relative to parent. Can have a special value <a>'center'</a> which centers it in the parent.</desc></p>
+<p><em>number</em> <strong>w</strong>, <strong>h</strong><br />
+<desc>widget size</desc></p>
+<p><em>bool</em> <strong>update</strong><br />
+<desc>a flag that tells if a widget must be rerendered</desc></p>
+<p><em>bool</em> <strong>visible</strong> = true<br />
+<desc>widget visibility flag</desc></p>
+<p><em>table</em> <strong>theme</strong> = <a>Theme</a>(theme[<em>&lt;widget name&gt;</em>])<br />
+<desc>widget's theme. It's automatically found in the global theme table. See <a href="../../themes">Theming</a></p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Events</p>
+<p><div class="codehilite"><pre><span></span><span class="n">widget</span><span class="p">:</span><span class="n">rise</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">)</span>
+</pre></div>
+
+<desc>This event is used to signal that a branch of dependant widgets should be rerendered</desc></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:absolute() <a>&rarr;</a> <em>number</em> <a>x</a><em>, number</em> <a>y</a></p>
+<p><desc>returns absolute widget position on screen</desc></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:relative() <a>&rarr;</a> <em>number</em> <a>x</a><em>, number</em> <a>y</a></p>
+<p><desc>returns widget position relative to parent. Usually the position given on creation, or, if it's the special value <a>'center'</a>, will calculate the center of parent widget.</desc></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:draw() <a>&rarr; nil</a></p>
+<p><desc>draws the widget with it's children</desc></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:colored(<em>function</em> <strong>func</strong>, <strong>...</strong>) <a>&rarr; nil</a></p>
+<p><desc>draws a <a>love.graphics</a> primitive with theme colors</desc></p>
+</div>
+<h3 id="rectangle"><class>Rectangle<a class="headerlink" href="#rectangle" title="Permanent link">&para;</a></h3>
+<p><strong>Rectangle</strong> is a <a>love.graphics.rectangle</a> wrapped in <strong>WidgetBase</strong> for use as a widget component</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Rectangle</span> <span class="k">extends</span> <span class="nc">WidgetBase</span>
+</pre></div>
+
+
+<div class="admonition summary">
+<p class="admonition-title">Rectangle(<em>number</em> <strong>x</strong>, <em>number</em> <strong>y</strong>, <em>number</em> <strong>w</strong>, <em>number</em> <strong>h</strong>) <a>&rarr; self</a></p>
+</div>
+<h3 id="text"><class>Text</class><a class="headerlink" href="#text" title="Permanent link">&para;</a></h3>
+<p><strong>Text</strong> can be used on it's own as a label or formatted text. Colored text format ({color, string, ...}) shouldn't be used.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Text</span> <span class="k">extends</span> <span class="nc">WidgetBase</span>
+</pre></div>
+
+
+<div class="admonition summary">
+<p class="admonition-title">Text(<em>number</em> <strong>x</strong>, <em>number</em> <strong>y</strong>, <em>string</em> <strong>text</strong>) <a>&rarr; self</a></p>
+</div>
+<div class="admonition note">
+<p><em>string</em> <strong>buffer</strong> = text<br />
+<desc>internal string buffer for easier manipulation. Shouldn't be manipulated directly</desc></p>
+<p><em>love.Text</em> <strong>text</strong><br />
+<desc>the actual text object. Shouldn't be manipulated directly</desc></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:refresh() <a>&rarr; nil</a></p>
+<p><desc>refreshes text widget's size and position (<a>y</a>, <a>w</a> and <a>h</a>). Used internally, should be called each time <strong>text</strong> is manipulated</desc></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:set(<em>string</em> <strong>text</strong>, <em>number</em> <strong>wrap</strong>=parent.w, <em>string</em> <strong>align</strong>='left') <a>&rarr; nil</a></p>
+<p><desc>set <strong>buffer</strong> to <strong>text</strong> and update the <a>love.Text</a> object</a></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:add(<em>string</em> <strong>text</strong>, <em>number</em> <strong>wrap</strong>=parent.w, <em>string</em> <strong>align</strong>='left') <a>&rarr; nil</a></p>
+<p><desc>add <strong>text</strong> to <strong>buffer</strong> and update the <a>love.Text</a> object</a></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:remove(<em>number</em> <strong>a</strong>=#buffer-1, <em>number</em> <strong>b</strong>=#buffer) <a>&rarr; nil</a></p>
+<p><desc>remove characters from <strong>buffer</strong>, starting from <strong>a</strong> to <strong>b</strong>, and update the <a>love.Text</a> object</a></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:clear() <a>&rarr; nil</a></p>
+<p><desc>erase <strong>buffer</strong> and reset <a>love.Text</a> object</desc></p>
+</div>
+<h2 id="composites">Composites<a class="headerlink" href="#composites" title="Permanent link">&para;</a></h2>
+<p><strong>Composites</strong> are widgets that are built from <strong>Primitives</strong> and <strong>Extensions</strong>. They must be attached to a <strong>Container</strong> to be rendered.</p>
+<h3 id="container"><class>Container</class><a class="headerlink" href="#container" title="Permanent link">&para;</a></h3>
+<p>The container is the base of all Composites. It's most basic use is a rendering window. Widgets must be <strong>:attach()</strong> -ed to a container, and the container must be <strong>:draw()</strong> -n.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Container</span> <span class="k">extends</span> <span class="nc">WidgetBase</span>
+</pre></div>
+
+
+<div class="admonition summary">
+<p class="admonition-title">Container(<em>number</em> <strong>x</strong>, <em>number</em> <strong>y</strong>, <em>number</em> <strong>w</strong>, <em>number</em> <strong>h</strong>) <a>&rarr; self</a></p>
+<p><desc>Creates a new Container object that stores and renders attached widgets</desc></p>
+</div>
+<div class="admonition note">
+<p><em>love.Canvas</em> <strong>canvas</strong><br />
+<desc>attached widgets get rendered to this canvas</desc></p>
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:draw() <a>&rarr; nil</a></p>
+<p><desc>Renders the container with all attached widgets</desc></p>
+</div>
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+  <span class="n">window</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+  <span class="n">window</span><span class="p">:</span><span class="n">draw</span><span class="p">()</span>
+<span class="kr">end</span>
+</pre></div>
+
+
+<h3 id="button"><class>Button</class><a class="headerlink" href="#button" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Button</span> <span class="k">extends</span> <span class="nc">Container</span>
+</pre></div>
+
+
+<div class="admonition summary">
+<p class="admonition-title">Button(<em>number</em> <strong>x</strong>, <em>number</em> <strong>y</strong>, <em>number</em> <strong>w</strong>, <em>number</em> <strong>h</strong>, <em>string</em> <strong>label</strong>) <a>&rarr; self</a></p>
+</div>
+<div class="admonition note">
+<p><em>Rectangle</em> <strong>panel</strong><br />
+<desc>Button background panel</desc></p>
+<p><em>Text</em> <strong>text</strong><br />
+<desc>Button label Text object</desc></p>
+<p><em>Clickable</em> <strong>onclick</strong><br />
+<desc><strong>Clickable</strong> extension, makes button clickable</desc></p>
+</div>
+<div class="admonition hint">
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">mousepressed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">button</span><span class="p">,</span> <span class="n">istouch</span><span class="p">)</span>
+    <span class="n">Container</span><span class="p">:</span><span class="n">event</span><span class="p">{[</span><span class="s1">&#39;mousepress&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">button</span><span class="p">,</span> <span class="n">istouch</span><span class="p">}}</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">mousereleased</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">button</span><span class="p">,</span> <span class="n">istouch</span><span class="p">)</span>
+    <span class="n">Container</span><span class="p">:</span><span class="n">event</span><span class="p">{[</span><span class="s1">&#39;mouserelease&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">button</span><span class="p">,</span> <span class="n">istouch</span><span class="p">}}</span>
+<span class="kr">end</span>
+</pre></div>
+
+
+</div>
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">mybutton</span> <span class="o">=</span> <span class="n">window</span><span class="p">:</span><span class="n">attach</span><span class="p">(</span><span class="n">Button</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;Button&#39;</span><span class="p">))</span>
+
+    <span class="n">mybutton</span><span class="p">.</span><span class="n">onclick</span><span class="p">.</span><span class="n">primary</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="c1">-- callback</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello at x:&quot;</span><span class="o">..</span><span class="nb">tostring</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">..</span><span class="s2">&quot; y:&quot;</span><span class="o">..</span><span class="nb">tostring</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="kr">end</span>
+<span class="kr">end</span>
+</pre></div>
+
+
+<h3 id="checkbox"><class>Checkbox</class><a class="headerlink" href="#checkbox" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Checkbox</span> <span class="k">extends</span> <span class="nc">Container</span>
+</pre></div>
+
+
+<div class="admonition summary">
+<p class="admonition-title">Checkbox(<em>number</em> <strong>x</strong>, <em>number</em> <strong>y</strong>, <em>number</em> <strong>radius</strong>, <em>string</em> <strong>text</strong>, <em>bool</em> <strong>state</strong>) <a>&rarr; self</a></p>
+</div>
+<div class="admonition note">
+<p><em>Rectangle</em> <strong>base</strong><br />
+<desc>Checkbox base panel</desc></p>
+<p><em>Rectangle</em> <strong>check</strong><br />
+<desc>the "check" itself</desc></p>
+<p><em>Text</em> <strong>text</strong><br />
+<desc>checkbox's label</desc></p>
+<p><em>Clickable</em> <strong>onclick</strong><br />
+<desc><strong>Clickable</strong> extension</desc></p>
+<p><em>bool</em> <strong>state</strong>=false<br />
+<desc>current state of the checkbox</desc></p>
+</div>
+<div class="admonition hint">
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">mousepressed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">button</span><span class="p">,</span> <span class="n">istouch</span><span class="p">)</span>
+    <span class="n">Container</span><span class="p">:</span><span class="n">event</span><span class="p">{[</span><span class="s1">&#39;mousepress&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">button</span><span class="p">,</span> <span class="n">istouch</span><span class="p">}}</span>
+<span class="kr">end</span>
+</pre></div>
+
+
+</div>
+<div class="admonition summary">
+<p class="admonition-title">:toggle() <a>&rarr; nil</a></p>
+<p><desc>called when checkbox is clicked, toggles state. Do not override</desc></p>
+</div>
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">mycheck</span> <span class="o">=</span> <span class="n">window</span><span class="p">:</span><span class="n">attach</span><span class="p">(</span><span class="n">Checkbox</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;Checkbox&#39;</span><span class="p">))</span>
+<span class="kr">end</span>
+</pre></div>
+
+
+<h3 id="textbox"><class>TextBox</class><a class="headerlink" href="#textbox" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">TextBox</span> <span class="k">extends</span> <span class="nc">Container</span>
+</pre></div>
+
+
+<div class="admonition summary">
+<p class="admonition-title">TextBox(<em>number</em> <strong>x</strong>, <em>number</em> <strong>y</strong>, <em>number</em> <strong>w</strong>, <em>number</em> <strong>h</strong>) <a>&rarr; self</a></p>
+</div>
+<div class="admonition note">
+<p><em>Rectangle</em> <strong>base</strong><br />
+<desc>TextBox base panel</desc></p>
+<p><em>Text</em> <strong>text</strong><br />
+<desc>Interact with this Primitive to set, add, remove text</desc></p>
+</div>
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">mytext</span> <span class="o">=</span> <span class="n">window</span><span class="p">:</span><span class="n">attach</span><span class="p">(</span><span class="n">TextBox</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+
+    <span class="n">mytext</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;hello world!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="kr">end</span>
+</pre></div>
+
+
+<h3 id="textboxscrollable"><class>TextBoxScrollable</class><a class="headerlink" href="#textboxscrollable" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">TextBoxScrollable</span> <span class="k">extends</span> <span class="nc">TextBox</span>
+</pre></div>
+
+
+<div class="admonition summary">
+<p class="admonition-title">TextBoxScrollable(<em>number</em> <strong>x</strong>, <em>number</em> <strong>y</strong>, <em>number</em> <strong>w</strong>, <em>number</em> <strong>h</strong>) <a>&rarr; self</a></p>
+</div>
+<div class="admonition note">
+<p><em>Focus</em> <strong>focus</strong> = Focus('mousemove')<br />
+<desc>Focuses on TextBox when mouse is hovering above it</desc></p>
+<p><em>Scroll</em> <strong>scroller</strong><br />
+<desc>Scroll extension, allows widget to be scrolled</desc></p>
+<p><em>ScrollBar</em> <strong>scrollbar</strong><br />
+<desc>ScrollBar extension, adds a scrollbar element based on <strong>scroller</strong> values</desc></p>
+</div>
+<div class="admonition hint">
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">mousemoved</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">Container</span><span class="p">:</span><span class="n">event</span><span class="p">{[</span><span class="s1">&#39;mousemove&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">}}</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">wheelmoved</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">Container</span><span class="p">:</span><span class="n">event</span><span class="p">{[</span><span class="s1">&#39;wheelmove&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">}}</span>
+<span class="kr">end</span>
+</pre></div>
+
+
+</div>
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">mytext</span> <span class="o">=</span> <span class="n">window</span><span class="p">:</span><span class="n">attach</span><span class="p">(</span><span class="n">TextBoxScrollable</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+
+    <span class="n">mytext</span><span class="p">:</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;imagine a lot of text here&#39;</span><span class="p">)</span>
+<span class="kr">end</span>
+</pre></div>
+
+
+<h3 id="textinput"><class>TextInput</class><a class="headerlink" href="#textinput" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">TextInput</span> <span class="k">extends</span> <span class="nc">TextBox</span>
+</pre></div>
+
+
+<div class="admonition summary">
+<p class="admonition-title">TextInput(<em>number</em> <strong>x</strong>, <em>number</em> <strong>y</strong>, <em>number</em> <strong>w</strong>, <em>number</em> <strong>h</strong>) <a>&rarr; self</a></p>
+</div>
+<div class="admonition note">
+<p><em>Focus</em> <strong>focus</strong> = Focus('mousepress')<br />
+<desc>Focuses on TextInput when mouse is clicked</desc></p>
+<p><em>string</em> <strong>buffer</strong><br />
+<desc>internal string buffer for easier manipulation. Shouldn't be manipulated directly</desc></p>
+<p><em>BlinkingCursor</em> <strong>cursor</strong><br />
+<desc>Cursor extension, blinks every .7 seconds</desc></p>
+<p><em>Input</em><br />
+<desc>Input extension, allows widget to receive keyboard input</desc></p>
+</div>
+<div class="admonition hint">
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">mousepressed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">button</span><span class="p">,</span> <span class="n">istouch</span><span class="p">)</span>
+    <span class="n">Container</span><span class="p">:</span><span class="n">event</span><span class="p">{[</span><span class="s1">&#39;mousepress&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">button</span><span class="p">,</span> <span class="n">istouch</span><span class="p">}}</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">keypressed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">Container</span><span class="p">:</span><span class="n">event</span><span class="p">{[</span><span class="s1">&#39;keypress&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">key</span><span class="p">}}</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">textinput</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">Container</span><span class="p">:</span><span class="n">event</span><span class="p">{[</span><span class="s1">&#39;textinput&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">text</span><span class="p">}}</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">Container</span><span class="p">:</span><span class="n">event</span><span class="p">{[</span><span class="s1">&#39;delta&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">dt</span><span class="p">}}</span>
+<span class="kr">end</span>
+</pre></div>
+
+
+</div>
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">setKeyRepeat</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+
+    <span class="n">window</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">myinput</span> <span class="o">=</span> <span class="n">window</span><span class="p">:</span><span class="n">attach</span><span class="p">(</span><span class="n">TextInput</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="kr">end</span>
+</pre></div>
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href=".." title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Home
+              </span>
+            </div>
+          </a>
+        
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017 Daniels Kursits
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
+        and
+        <a href="http://squidfunk.github.io/mkdocs-material/" title="Material for MkDocs">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application-2afe21e0b2.js"></script>
+      <script>var config={url:{base:".."}},app=new Application(config);app.initialize()</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
